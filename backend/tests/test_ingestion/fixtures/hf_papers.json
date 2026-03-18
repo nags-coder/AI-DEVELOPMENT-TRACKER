@@ -1,0 +1,18 @@
+[
+  {
+    "paper": {
+      "id": "2403.99901",
+      "title": "Test HF Paper: Scaling Reward Models",
+      "summary": "We study the scaling properties of reward models used in RLHF training.",
+      "authors": [
+        {"name": "Test Author A"},
+        {"name": "Test Author B"}
+      ],
+      "publishedAt": "2025-03-18T00:00:00Z",
+      "tags": ["rlhf", "reward-models"]
+    },
+    "publishedAt": "2025-03-18T00:00:00Z",
+    "upvotes": 42,
+    "_hf_type": "paper"
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "modelId": "test-org/test-model-7b",
+    "pipeline_tag": "text-generation",
+    "tags": ["text-generation", "llm", "pytorch"],
+    "downloads": 150000,
+    "createdAt": "2025-03-10T00:00:00Z",
+    "cardData": {
+      "description": "A test 7B parameter language model."
+    },
+    "_hf_type": "model"
+  }
+]

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">
+  <title>ArXiv Query: cat:cs.AI</title>
+  <id>http://arxiv.org/api/test</id>
+  <entry>
+    <id>http://arxiv.org/abs/2403.12345v1</id>
+    <title>Test Paper: Attention Is Still All You Need</title>
+    <summary>We revisit the transformer architecture and propose improvements that significantly boost performance on language understanding tasks. Our method achieves state-of-the-art results on multiple benchmarks.</summary>
+    <author><name>Alice Smith</name></author>
+    <author><name>Bob Jones</name></author>
+    <author><name>Carol Chen</name></author>
+    <author><name>Dan Park</name></author>
+    <published>2025-03-15T18:00:00Z</published>
+    <arxiv:primary_category term="cs.AI" />
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2403.12346v1</id>
+    <title>Efficient Fine-Tuning with LoRA Variants</title>
+    <summary>We compare various LoRA variants for efficient fine-tuning of large language models and find that adaptive rank selection outperforms fixed-rank approaches.</summary>
+    <author><name>Eve Wilson</name></author>
+    <published>2025-03-14T12:00:00Z</published>
+    <arxiv:primary_category term="cs.LG" />
+  </entry>
+</feed>
