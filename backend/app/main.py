@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1 import content, feed, health, sources, sub_sources
+from app.api.v1 import content, feed, health, ingest, sources, sub_sources
 from app.config import settings
 
 
@@ -42,3 +42,4 @@ app.include_router(feed.router, prefix=settings.API_V1_PREFIX)
 app.include_router(sources.router, prefix=settings.API_V1_PREFIX)
 app.include_router(sub_sources.router, prefix=settings.API_V1_PREFIX)
 app.include_router(content.router, prefix=settings.API_V1_PREFIX)
+app.include_router(ingest.router, prefix=settings.API_V1_PREFIX)

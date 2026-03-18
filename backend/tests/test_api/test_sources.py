@@ -1,5 +1,7 @@
 """Tests for the Sources API endpoints (/api/v1/sources, /sub-sources)."""
 
+import uuid
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 
@@ -7,6 +9,11 @@ from app.main import app
 
 SOURCES_URL = "/api/v1/sources"
 SUB_SOURCES_URL = "/api/v1/sub-sources"
+
+
+def _uid() -> str:
+    """Short unique suffix for test data to avoid constraint collisions."""
+    return uuid.uuid4().hex[:8]
 
 
 @pytest.fixture
@@ -33,8 +40,9 @@ class TestListSources:
 
 class TestSourceCRUD:
     async def test_create_source(self, client: AsyncClient):
+        name = f"Test New Source {_uid()}"
         payload = {
-            "name": "Test New Source",
+            "name": name,
             "category": "X",
             "base_url": "https://example.com",
             "source_type": "api",
@@ -42,18 +50,19 @@ class TestSourceCRUD:
         resp = await client.post(SOURCES_URL, json=payload)
         assert resp.status_code == 201
         data = resp.json()
-        assert data["name"] == "Test New Source"
+        assert data["name"] == name
         assert data["status"] == "active"
         assert data["priority"] == 3  # default
 
     async def test_update_source(self, client: AsyncClient):
         # First, create a source to update
+        uid = _uid()
         create_resp = await client.post(
             SOURCES_URL,
             json={
-                "name": "Update Test",
+                "name": f"Update Test {uid}",
                 "category": "X",
-                "base_url": "https://example.com/update",
+                "base_url": f"https://example.com/update-{uid}",
                 "source_type": "manual",
             },
         )
@@ -69,12 +78,13 @@ class TestSourceCRUD:
         assert data["notes"] == "updated"
 
     async def test_soft_delete_source(self, client: AsyncClient):
+        uid = _uid()
         create_resp = await client.post(
             SOURCES_URL,
             json={
-                "name": "Delete Test",
+                "name": f"Delete Test {uid}",
                 "category": "X",
-                "base_url": "https://example.com/delete",
+                "base_url": f"https://example.com/delete-{uid}",
                 "source_type": "rss",
             },
         )
@@ -108,16 +118,17 @@ class TestSubSources:
 
     async def test_create_sub_source(self, client: AsyncClient):
         # Use existing source_id 4 (arXiv)
+        handle = f"cs.TEST-{_uid()}"
         payload = {
             "source_id": 4,
             "platform": "arxiv",
-            "handle": "cs.CL",
-            "display_name": "Computation & Language",
+            "handle": handle,
+            "display_name": "Test Category",
         }
         resp = await client.post(SUB_SOURCES_URL, json=payload)
         assert resp.status_code == 201
         data = resp.json()
-        assert data["handle"] == "cs.CL"
+        assert data["handle"] == handle
         assert data["source_id"] == 4
 
     async def test_rate_sub_source(self, client: AsyncClient):
