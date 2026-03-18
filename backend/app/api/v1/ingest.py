@@ -20,10 +20,6 @@ class TriggerResponse(BaseModel):
     registered_sources: list[str]
 
 
-class TriggerSingleRequest(BaseModel):
-    source_id: int
-
-
 @router.post("/trigger", response_model=TriggerResponse, status_code=202)
 async def trigger_ingest_all(db: DbSession) -> TriggerResponse:
     """Trigger ingestion for all active sources (async via Celery)."""
@@ -46,4 +42,16 @@ async def trigger_ingest_source(source_id: int, db: DbSession) -> dict:
     return {
         "status": "accepted",
         "message": f"Ingestion triggered for source {source_id}.",
+    }
+
+
+@router.post("/score", status_code=202)
+async def trigger_score_all(db: DbSession) -> dict:
+    """Re-score all content items."""
+    from app.scoring.ranker import score_all
+
+    count = await score_all(db)
+    return {
+        "status": "ok",
+        "message": f"Scored {count} content items.",
     }
