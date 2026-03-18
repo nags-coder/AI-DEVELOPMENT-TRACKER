@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1 import health
+from app.api.v1 import feed, health
 from app.config import settings
 
 
@@ -38,3 +38,4 @@ app.add_middleware(
 
 # Routers
 app.include_router(health.router, prefix=settings.API_V1_PREFIX)
+app.include_router(feed.router, prefix=settings.API_V1_PREFIX)
