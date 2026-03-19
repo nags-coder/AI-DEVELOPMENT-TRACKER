@@ -9,9 +9,11 @@ interface FeedListProps {
   error: Error | null
   params: FeedParams
   onChange: (params: FeedParams) => void
+  onFeedback?: (id: number, action: "up" | "down") => void
+  onToggleSave?: (id: number, save: boolean) => void
 }
 
-export function FeedList({ data, isLoading, error, params, onChange }: FeedListProps) {
+export function FeedList({ data, isLoading, error, params, onChange, onFeedback, onToggleSave }: FeedListProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -47,7 +49,7 @@ export function FeedList({ data, isLoading, error, params, onChange }: FeedListP
       {/* Items */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.data.map((item) => (
-          <FeedCard key={item.id} item={item} />
+          <FeedCard key={item.id} item={item} onFeedback={onFeedback} onToggleSave={onToggleSave} />
         ))}
       </div>
 

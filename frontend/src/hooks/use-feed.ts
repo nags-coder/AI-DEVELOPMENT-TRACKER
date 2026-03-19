@@ -18,6 +18,7 @@ export function useFeed(params: FeedParams = {}) {
   return useQuery<FeedResponse>({
     queryKey: ["feed", params],
     queryFn: () => apiFetch<FeedResponse>(path),
+    refetchInterval: 5 * 60 * 1000, // auto-refresh every 5 minutes
   })
 }
 

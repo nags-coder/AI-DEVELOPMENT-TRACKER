@@ -1,8 +1,13 @@
-import { Moon, Sun, Zap } from "lucide-react"
+import { Moon, Sun, Zap, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/hooks/use-theme"
 
-export function Header() {
+interface HeaderProps {
+  onRefresh?: () => void
+  isRefreshing?: boolean
+}
+
+export function Header({ onRefresh, isRefreshing }: HeaderProps) {
   const { theme, toggleTheme } = useTheme()
 
   return (
@@ -12,9 +17,16 @@ export function Header() {
           <Zap className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-bold tracking-tight">AI Pulse</h1>
         </div>
-        <Button variant="ghost" size="icon" onClick={toggleTheme}>
-          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-        </Button>
+        <div className="flex items-center gap-1">
+          {onRefresh && (
+            <Button variant="ghost" size="icon" onClick={onRefresh} disabled={isRefreshing}>
+              <RefreshCw className={`h-5 w-5 ${isRefreshing ? "animate-spin" : ""}`} />
+            </Button>
+          )}
+          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
     </header>
   )

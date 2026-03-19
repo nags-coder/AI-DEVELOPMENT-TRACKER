@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 import { Header } from "@/components/header"
 import { MustReadHero } from "@/components/must-read-hero"
 import { FeedFilters } from "@/components/feed-filters"
 import { FeedList } from "@/components/feed-list"
-import { useFeed, useMustRead, useSources } from "@/hooks/use-feed"
+import { useFeed, useMustRead, useSources, submitFeedback, toggleSave } from "@/hooks/use-feed"
 import type { FeedParams } from "@/types/api"
 
 function App() {
@@ -13,15 +14,39 @@ function App() {
     sort_by: "date",
   })
 
+  const queryClient = useQueryClient()
   const feed = useFeed(params)
   const mustRead = useMustRead()
   const sources = useSources()
 
   const sourceNames = (sources.data ?? []).map((s) => s.name)
 
+  const handleFeedback = useCallback(
+    async (id: number, action: "up" | "down") => {
+      await submitFeedback(id, action)
+      queryClient.invalidateQueries({ queryKey: ["feed"] })
+      queryClient.invalidateQueries({ queryKey: ["must-read"] })
+    },
+    [queryClient],
+  )
+
+  const handleToggleSave = useCallback(
+    async (id: number, save: boolean) => {
+      await toggleSave(id, save)
+      queryClient.invalidateQueries({ queryKey: ["feed"] })
+    },
+    [queryClient],
+  )
+
+  const handleRefresh = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ["feed"] })
+    queryClient.invalidateQueries({ queryKey: ["must-read"] })
+    queryClient.invalidateQueries({ queryKey: ["sources"] })
+  }, [queryClient])
+
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Header />
+      <Header onRefresh={handleRefresh} isRefreshing={feed.isFetching} />
 
       <main className="container mx-auto px-4 py-6 space-y-6 max-w-6xl">
         {/* Must-Read Hero */}
@@ -48,6 +73,8 @@ function App() {
           error={feed.error}
           params={params}
           onChange={setParams}
+          onFeedback={handleFeedback}
+          onToggleSave={handleToggleSave}
         />
       </main>
 
