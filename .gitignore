@@ -7,19 +7,26 @@ dist/
 build/
 .venv/
 venv/
+env/
 .eggs/
 *.egg
+*.pyo
+pip-log.txt
+pip-delete-this-directory.txt
 
 # ── Node / Frontend ──────────────────────────────────────
 node_modules/
 frontend/dist/
 frontend/.vite/
 *.tsbuildinfo
+.eslintcache
 
 # ── Environment ──────────────────────────────────────────
 .env
 .env.local
 .env.*.local
+.env.production
+.env.staging
 
 # ── IDE ──────────────────────────────────────────────────
 .vscode/
@@ -28,17 +35,31 @@ frontend/.vite/
 *.swo
 *~
 .DS_Store
+Thumbs.db
 
-# ── Testing ──────────────────────────────────────────────
+# ── Testing / Linting ───────────────────────────────────
 .coverage
+coverage/
 htmlcov/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.tox/
+.nox/
 
 # ── Docker ───────────────────────────────────────────────
 # Don't ignore docker-compose.yml — we want that in the repo
+docker-compose.override.yml
+
+# ── OS ───────────────────────────────────────────────────
+*.DS_Store
+*.swp
+*~
 
 # ── Misc ─────────────────────────────────────────────────
 *.log
 tmp/
+*.bak
+*.tmp
+*.pid
+nohup.out
