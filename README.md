@@ -2,7 +2,7 @@
 
 **Your personalised AI news aggregator.** Cuts through the noise across arXiv, GitHub Trending, and Hugging Face to surface the **one thing you should read today**.
 
-![AI Pulse Screenshot](docs/assets/screenshot.png)
+![AI Pulse Screenshot](docs/screenshot.png)
 
 ---
 
